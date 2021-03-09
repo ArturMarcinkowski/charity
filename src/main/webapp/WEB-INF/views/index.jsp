@@ -69,6 +69,26 @@
             Możesz sprawdzić czym się zajmują.</p>
 
         <ul class="help--slides-items">
+
+
+            <c:forEach var="donation" items="${donations}" varStatus="status">
+                <div id="line-${yourStatus.index}">${yourItemOfCollectionVarName.name}</div>
+
+                <li>
+                    <div class="col">
+                        <div class="title">${donation.name}</div>
+                        <div class="subtitle">${donation.description}</div>
+                    </div>
+
+                    <div class="col">
+                        <div class="title">Fundacja "A kogo"</div>
+                        <div class="subtitle">Cel i misja: Pomoc wybudzaniu dzieci ze śpiączki.</div>
+                    </div>
+                </li>
+            </c:forEach>
+
+
+
             <li>
                 <div class="col">
                     <div class="title">Fundacja "Dbam o Zdrowie"</div>

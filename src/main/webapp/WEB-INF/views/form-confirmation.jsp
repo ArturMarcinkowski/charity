@@ -31,12 +31,13 @@
         </ul>
     </nav>
 
+
     <div class="slogan container container--90">
-        <div class="slogan--item">
-            <h1>
-                Zacznij pomagać!<br/>
-                Oddaj niechciane rzeczy w zaufane ręce
-            </h1>
-        </div>
+        <h2>
+            Dziękujemy za przesłanie formularza Na maila prześlemy wszelkie
+            informacje o odbiorze.
+        </h2>
     </div>
 </header>
+
+<%@include file="footer.jsp"%>

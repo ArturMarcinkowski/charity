@@ -14,6 +14,7 @@ import javax.validation.Valid;
 @Controller
 public class LoginController {
 
+
     UserService userService;
 
     public LoginController(UserService userService) {
@@ -39,4 +40,5 @@ public class LoginController {
         userService.saveUser(user);
         return "redirect:/";
     }
+
 }

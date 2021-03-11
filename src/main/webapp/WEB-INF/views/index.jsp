@@ -11,7 +11,7 @@
 </div>
 </header>
 
-<section class="stats">
+<section class="stats" id="section2">
     <div class="container container--85">
         <div class="stats--item">
             <em>${bagsCount}</em>
@@ -57,10 +57,10 @@
         </div>
     </div>
 
-    <a href="#" class="btn btn--large">Załóż konto</a>
+    <a href="/register" class="btn btn--large">Załóż konto</a>
 </section>
 
-<section class="about-us">
+<section class="about-us" id="section3">
     <div class="about-us--text">
         <h2>O nas</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas vitae animi rem pariatur incidunt libero
@@ -71,7 +71,7 @@
     </div>
 </section>
 
-<section class="help">
+<section class="help" id="section4">
     <h2>Komu pomagamy?</h2>
 
     <!-- SLIDE 1 -->

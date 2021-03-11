@@ -32,4 +32,17 @@ public class SpringDataUserDetailsService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(), user.getPassword(), grantedAuthorities);
     }
+
+//    @Override
+//    public UserDetails loadUserByUsername(String email) {
+//        User user = userService.findByEmail(email);
+//        if (user == null) {
+//            throw new UsernameNotFoundException(email);
+//        }
+//        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+//        user.getRoles().forEach(r ->
+//                grantedAuthorities.add(new SimpleGrantedAuthority(r.getName())));
+//        return new org.springframework.security.core.userdetails.User(
+//                user.getUsername(), user.getPassword(), grantedAuthorities);
+//    }
 }

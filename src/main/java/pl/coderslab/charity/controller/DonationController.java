@@ -44,14 +44,14 @@ public class DonationController {
             return "form-confirmation";
         }
         session.setAttribute("donation", donation);
-        return "redirect:check";
-    }
-
-    @GetMapping("/check")
-    public String formCheck(Model model, HttpSession session){
-        model.addAttribute("donation", session.getAttribute("donation"));
         return "check";
     }
+
+//    @GetMapping("/check")
+//    public String formCheck(Model model, HttpSession session){
+////        model.addAttribute("donation", session.getAttribute("donation"));
+//        return "check";
+//    }
 
     @PostMapping("/check")
     public String checkForm(HttpSession session){

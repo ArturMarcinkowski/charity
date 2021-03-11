@@ -26,6 +26,7 @@ public class HomeController {
         List<Donation> donations = donationRepository.findAll();
         model.addAttribute("bagsCount", donations.stream().mapToInt(Donation::getQuantity).sum());
         model.addAttribute("donationsCount", donations.size());
+        model.addAttribute("donationsCount", donationRepository.count());
         return "index";
     }
 }

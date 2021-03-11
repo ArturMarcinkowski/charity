@@ -1,6 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="header.jsp"%>
 
+<div class="slogan container container--90">
+    <div class="slogan--item">
+        <h1>
+            Zacznij pomagać!<br/>
+            Oddaj niechciane rzeczy w zaufane ręce
+        </h1>
+    </div>
+</div>
+</header>
+
 <section class="form--steps">
     <div class="form--steps-instructions">
         <div class="form--steps-container">
@@ -54,9 +64,7 @@
                 <div class="form-group form-group--inline">
                     <label>
                         Liczba 60l worków:
-<%--                        <input type="number" name="quantity" step="1" min="1" />--%>
-                                        <form:input path="quantity"/>
-
+                        <form:input path="quantity" type="number" step="1" min="1"/>
                     </label>
                 </div>
 

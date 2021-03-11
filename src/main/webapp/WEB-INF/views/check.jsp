@@ -1,6 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="header.jsp"%>
 
+<div class="slogan container container--90">
+    <div class="slogan--item">
+        <h1>
+            Zacznij pomagać!<br/>
+            Oddaj niechciane rzeczy w zaufane ręce
+        </h1>
+    </div>
+</div>
+</header>
+
 <section class="form--steps">
     <div class="form--steps-instructions">
         <div class="form--steps-container">
@@ -24,7 +34,7 @@
     <div class="form--steps-container">
         <div class="form--steps-counter"><span>1</span>/1</div>
 
-        <form method="post">
+        <form method="post" action="/check">
 
             <div data-step="1">
                 <h3>Podsumowanie Twojej darowizny</h3>
@@ -64,6 +74,7 @@
                             <h4>Termin odbioru:</h4>
                             <ul>
                                 <li>${donation.pickUpDate}</li>
+
                                 <li>${donation.pickUpTime}</li>
                                 <li>${donation.pickUpComment}</li>
                             </ul>

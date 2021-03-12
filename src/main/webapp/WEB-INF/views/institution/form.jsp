@@ -3,9 +3,10 @@
 </header>
 
 <section class="login-page" id="edit-institution">
-    <h2>Edytuj fundację ${institution.name}</h2>
-    <form:form method="post" modelAttribute="institution">
+    <c:if test="${inscription == 'EDIT'}"><h2>Edytuj fundację ${institution.name}</h2></c:if>
+    <c:if test="${inscription == 'ADD'}"><h2>Dodaj fundację</h2></c:if>
 
+    <form:form method="post" modelAttribute="institution">
         <div class="form-group">
             <form:hidden path="id"/>
             <form:input path="name" placeholder="nazwa"/>
@@ -22,8 +23,9 @@
         </div>
         <div class="form-group form-group--buttons">
             <button class="btn" type="submit" >Zapisz</button>
-
-            <a href="/institution/delete?id=${institution.id}#delete-institution" class="btn btn--without-border">Usuń fundację</a>
+            <c:if test="${inscription == 'EDIT'}">
+                <a href="/institution/delete?id=${institution.id}#delete-institution" class="btn btn--without-border">Usuń fundację</a>
+            </c:if>
         </div>
     </form:form>
 </section>

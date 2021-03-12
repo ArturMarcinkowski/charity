@@ -30,9 +30,10 @@ public class InstitutionController {
         Optional<Institution> institution = institutionRepository.findById(id);
         if(institution.isPresent()){
             model.addAttribute("institution", institution.get());
+            model.addAttribute("inscription", "EDIT");
             return "institution/form";
         }
-        return "redirect:/";
+        return "redirect:/#section4";
     }
 
     @PostMapping("/settings")
@@ -41,7 +42,7 @@ public class InstitutionController {
             return "institution/form";
         }
         institutionRepository.save(institution);
-        return "redirect:/";
+        return "redirect:/#section4";
     }
 
     @GetMapping("/delete")
@@ -51,7 +52,7 @@ public class InstitutionController {
             model.addAttribute("institution", institution.get());
             return "institution/delete";
         }
-        return "redirect:/";
+        return "redirect:/#section4";
     }
 
     @GetMapping("/delete/confirm")
@@ -61,6 +62,23 @@ public class InstitutionController {
             institutionRepository.delete(institution.get());
             return "institution/delete-confirm";
         }
-        return "redirect:/";
+        return "redirect:/#section4";
     }
+
+    @GetMapping("/add")
+    public String addInstitution(Model model){
+        model.addAttribute("institution", new Institution());
+        model.addAttribute("inscription", "ADD");
+        return "institution/form";
+    }
+
+    @PostMapping("/add")
+    public String institutionAdd(@Valid Institution institution, BindingResult result){
+        if (result.hasErrors()) {
+            return "institution/form";
+        }
+        institutionRepository.save(institution);
+        return "redirect:/#section4";
+    }
+
 }

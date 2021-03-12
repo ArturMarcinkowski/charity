@@ -41,7 +41,7 @@ public class DonationController {
     @PostMapping("/form")
     public String donationForm(@Valid Donation donation, BindingResult result, HttpSession session){
         if (result.hasErrors()) {
-            return "form-confirmation";
+            return "form";
         }
         session.setAttribute("donation", donation);
         return "check";

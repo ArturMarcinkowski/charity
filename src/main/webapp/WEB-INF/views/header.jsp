@@ -20,8 +20,8 @@
     <nav class="container container--70">
         <ul class="nav--actions">
             <sec:authorize access="!isAuthenticated()">
-            <li><a href="/login" class="btn btn--small btn--without-border">Zaloguj</a></li>
-            <li><a href="/register" class="btn btn--small btn--highlighted">Załóż konto</a></li>
+            <li><a href="/login#login-form" class="btn btn--small btn--without-border">Zaloguj</a></li>
+            <li><a href="/register#register-form" class="btn btn--small btn--highlighted">Załóż konto</a></li>
             </sec:authorize>
             <sec:authorize access="isAuthenticated()">
                 <li><a href="/logout" class="btn btn--small btn--without-border">Wyloguj</a></li>
@@ -29,11 +29,11 @@
         </ul>
 
         <ul>
-            <li><a href="#section1" class="btn btn--without-border active">Start</a></li>
-            <li><a href="#section2" class="btn btn--without-border">O co chodzi?</a></li>
-            <li><a href="#section3" class="btn btn--without-border">O nas</a></li>
-            <li><a href="#section4" class="btn btn--without-border">Fundacje i organizacje</a></li>
-            <li><a href="#section5" class="btn btn--without-border">Kontakt</a></li>
+            <li><a href="/#section1" class="btn btn--without-border active">Start</a></li>
+            <li><a href="/#section2" class="btn btn--without-border">O co chodzi?</a></li>
+            <li><a href="/#section3" class="btn btn--without-border">O nas</a></li>
+            <li><a href="/#section4" class="btn btn--without-border">Fundacje i organizacje</a></li>
+            <li><a href="/#section5" class="btn btn--without-border">Kontakt</a></li>
         </ul>
     </nav>
 

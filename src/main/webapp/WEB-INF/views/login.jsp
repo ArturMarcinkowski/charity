@@ -2,7 +2,7 @@
 <%@include file="header.jsp"%>
 </header>
 
-<section class="login-page">
+<section class="login-page" id="login-form">
     <h2>Zaloguj się</h2>
     <form method="post">
         <div class="form-group">

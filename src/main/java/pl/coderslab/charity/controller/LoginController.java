@@ -33,7 +33,7 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public String addStudent(@Valid User user, BindingResult result){
+    public String addUser(@Valid User user, BindingResult result){
         if (result.hasErrors()) {
             return "register";
         }

@@ -6,14 +6,14 @@
 </header>
 
 
-<section class="login-page" id="delete-institution">
+<section class="login-page" id="delete-user">
         <h2>
             Czy jesteś pewień, że chcesz usunąć użytkownika ${user.username}?
         </h2>
 
         <div class="form-group form-group--buttons">
-            <a href="/user/delete/confirm?id=${user.id}" methods="post" class="btn btn--without-border">Usuń</a>
-            <a href="/user/list" class="btn btn--without-border">Cofnij</a>
+            <a href="/user/delete/confirm?id=${user.id}#delete-user" methods="post" class="btn btn--without-border">Usuń</a>
+            <a href="/user/list#user-list" class="btn btn--without-border">Cofnij</a>
         </div>
 
 </section>

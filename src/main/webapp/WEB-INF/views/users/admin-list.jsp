@@ -2,7 +2,7 @@
 <%@include file="../header.jsp" %>
 </header>
 
-<section class="login-page" id="admin-list">
+<section class="login-page" id="user-list">
     <h2>Admini</h2>
 
             <table>

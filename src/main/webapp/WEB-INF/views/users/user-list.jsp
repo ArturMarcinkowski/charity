@@ -2,8 +2,8 @@
 <%@include file="../header.jsp" %>
 </header>
 
-<section class="login-page" id="admin-list">
-    <h2>Admini</h2>
+<section class="login-page" id="user-list">
+    <h2>Użytkownicy</h2>
 
             <table>
                 <c:forEach items="${users}" var="user">

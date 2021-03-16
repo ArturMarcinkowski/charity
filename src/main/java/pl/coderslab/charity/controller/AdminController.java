@@ -25,7 +25,6 @@ public class AdminController {
 
 
     UserService userService;
-    UserRepository userRepository;
     RoleRepository roleRepository;
 
     public AdminController(UserService userService, RoleRepository roleRepository) {
@@ -53,7 +52,6 @@ public class AdminController {
         if (result.hasErrors()) {
             return "users/form";
         }
-        user.setRoles(roleRepository.findAllByName("ROLE_ADMIN"));
         userService.saveAdmin(user);
         return "redirect:/";
     }

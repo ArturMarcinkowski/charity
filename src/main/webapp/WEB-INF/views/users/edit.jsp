@@ -2,7 +2,7 @@
 <%@include file="../header.jsp" %>
 </header>
 
-<section class="login-page" id="register-form">
+<section class="login-page" id="edit-form">
     <h2>Ustawienia konta</h2>
     <form:form method="post" modelAttribute="user">
 

@@ -18,6 +18,16 @@
                                class="btn btn--small btn--without-border float-right">Edytuj</a></th>
                         <th><a href="/user/delete?id=${user.id}#delete-user"
                                class="btn btn--small btn--without-border float-right">Usuń</a></th>
+                        <c:if test="${user.enabled == 1}">
+                            <th><a href="/user/block?id=${user.id}"
+                                   class="btn btn--small btn--without-border float-right">Zablokuj</a></th>
+                        </c:if>
+                        <c:if test="${user.enabled == 0}">
+                            <th><a href="/user/unblock?id=${user.id}"
+                                   class="btn btn--small btn--without-border float-right">Odblokuj</a></th>
+                        </c:if>
+
+
                     </tr>
                     <div/>
                     </c:forEach>

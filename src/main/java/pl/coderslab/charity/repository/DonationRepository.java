@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface DonationRepository extends JpaRepository<Donation, Integer> {
-
+    List<Donation> findAllByUserId(int id);
 
 
 }

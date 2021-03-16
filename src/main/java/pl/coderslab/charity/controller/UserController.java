@@ -35,7 +35,8 @@ public class UserController {
 
     @GetMapping("/list")
     public String settings(Model model) {
-        List<User> users = userRepository.findAll();
+        Role role = roleRepository.findByName("ROLE_ADMIN");
+        List<User> users = userService.findAllByRolesContainsNot(role);
         model.addAttribute("users", users);
         return "users/user-list";
     }
@@ -95,6 +96,24 @@ public class UserController {
         }
         userService.saveUser(user);
         return "redirect:/";
+    }
+
+    @GetMapping("/block")
+    public String block(@RequestParam int id) {
+        Optional<User> user = userService.findById(id);
+        if(user.isPresent()){
+            userService.blockUser(user.get());
+        }
+        return "redirect:/user/list#user-list";
+    }
+
+    @GetMapping("/unblock")
+    public String unblock(@RequestParam int id) {
+        Optional<User> user = userService.findById(id);
+        if(user.isPresent()){
+            userService.unblockUser(user.get());
+        }
+        return "redirect:/user/list#user-list";
     }
 
 

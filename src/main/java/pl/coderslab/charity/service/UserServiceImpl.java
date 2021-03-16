@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
     public void updateUser(User user) {
         User oldUser = userRepository.findById(user.getId()).get();
         user.setPassword(oldUser.getPassword());
-        user.setUsername(oldUser.getUsername());
+//        user.setUsername(oldUser.getUsername());
         userRepository.save(user);
     }
 
@@ -70,5 +70,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAllByRolesContains(Role role){
         return userRepository.findAllByRolesContains(role);
+    }
+    @Override
+    public List<User> findAllByRolesContainsNot(Role role){
+        return userRepository.findAllByRolesNotContains(role);
+    }
+
+
+    @Override
+    public void blockUser(User user){
+        user.setEnabled(0);
+        userRepository.save(user);
+    }
+    @Override
+    public void unblockUser(User user){
+        user.setEnabled(1);
+        userRepository.save(user);
     }
 }

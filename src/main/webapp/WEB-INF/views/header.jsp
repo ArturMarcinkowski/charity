@@ -24,6 +24,7 @@
             <li><a href="/register#register-form" class="btn btn--small btn--highlighted">Załóż konto</a></li>
             </sec:authorize>
             <sec:authorize access="isAuthenticated()">
+                <li><a href="/profile/" class="btn btn--small btn--without-border">Profil</a></li>
                 <li><a href="/logout" class="btn btn--small btn--without-border">Wyloguj</a></li>
             </sec:authorize>
         </ul>

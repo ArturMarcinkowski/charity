@@ -16,6 +16,8 @@ public interface UserService {
     void saveAdmin(User user);
     void updateUser(User user);
     List<User> findAllByRolesContains(Role role);
-
+    List<User> findAllByRolesContainsNot(Role role);
+    void blockUser(User user);
+    void unblockUser(User user);
 
 }

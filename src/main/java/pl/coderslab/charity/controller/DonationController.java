@@ -35,16 +35,16 @@ public class DonationController {
         model.addAttribute("donation", new Donation());
         model.addAttribute("categories", categoryRepository.findAll());
         model.addAttribute("institutions", institutionRepository.findAll());
-        return "form";
+        return "donation/form";
     }
 
     @PostMapping("/form")
     public String donationForm(@Valid Donation donation, BindingResult result, HttpSession session){
         if (result.hasErrors()) {
-            return "form";
+            return "donation/form";
         }
         session.setAttribute("donation", donation);
-        return "check";
+        return "donation/check";
     }
 
 //    @GetMapping("/check")
@@ -56,6 +56,6 @@ public class DonationController {
     @PostMapping("/check")
     public String checkForm(HttpSession session){
         donationRepository.save((Donation) session.getAttribute("donation"));
-        return "form-confirmation";
+        return "donation/form-confirmation";
     }
 }

@@ -29,11 +29,11 @@ public class ProfileController {
         return "profile";
     }
 
-    @GetMapping("/settings")
+    @GetMapping("/edit")
     public String settings(Model model, Authentication authentication) {
         if(authentication != null) {
             model.addAttribute("user", userService.findByUserName(authentication.getName()));
-            return "settings";
+            return "users/edit";
         }
         else{
             return "redirect:/login";
@@ -41,17 +41,12 @@ public class ProfileController {
 
     }
 
-    @PostMapping("/settings")
+    @PostMapping("/edit")
     public String settingsPost(@Valid User user, BindingResult result, Authentication authentication){
         if (result.hasErrors()) {
             return "settings";
         }
-        User oldUser = userService.findByUserName(authentication.getName());
-        oldUser.setEmail(user.getEmail());
-        oldUser.setName(user.getName());
-        oldUser.setUsername(user.getUsername());
-        oldUser.setSurname(user.getSurname());
-        userService.saveUser(oldUser);
+        userService.updateUser(user);
         return "redirect:/";
     }
 

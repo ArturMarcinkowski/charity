@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="header.jsp" %>
+<%@include file="../header.jsp" %>
 </header>
 
 <section class="login-page" id="register-form">
@@ -46,4 +46,4 @@
 </section>
 
 
-<%@include file="footer.jsp" %>
+<%@include file="../footer.jsp" %>

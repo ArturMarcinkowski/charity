@@ -9,6 +9,8 @@ import pl.coderslab.charity.repository.UserRepository;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -28,10 +30,12 @@ public class UserServiceImpl implements UserService {
     public User findByUserName(String username) {
         return userRepository.findByUsername(username);
     }
+
 //    @Override
 //    public User findByEmail(String email) {
 //        return userRepository.findByEmail(email);
 //    }
+
     @Override
     public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -39,5 +43,32 @@ public class UserServiceImpl implements UserService {
         Role userRole = roleRepository.findByName("ROLE_USER");
         user.setRoles(new HashSet<>(Arrays.asList(userRole)));
         userRepository.save(user);
+    }
+
+    @Override
+    public void saveAdmin(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEnabled(1);
+        Role userRole = roleRepository.findByName("ROLE_ADMIN");
+        user.setRoles(new HashSet<>(Arrays.asList(userRole)));
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        User oldUser = userRepository.findById(user.getId()).get();
+        user.setPassword(oldUser.getPassword());
+        user.setUsername(oldUser.getUsername());
+        userRepository.save(user);
+    }
+
+    @Override
+    public Optional<User> findById(int id){
+        return userRepository.findById(id);
+    }
+
+    @Override
+    public List<User> findAllByRolesContains(Role role){
+        return userRepository.findAllByRolesContains(role);
     }
 }

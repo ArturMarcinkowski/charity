@@ -91,15 +91,18 @@
                         <div class="subtitle">Cel i misja: ${institutions[i.index].description}</div>
                     </div>
 
-                    <div class="col"><c:if test="${institutions[i.index+1] != null}">
+                    <c:if test="${institutions[i.index+1] != null}"><div class="col">
                         <div class="title">
 
                             <a href="/institution/settings?id=${institutions[i.index+1].id}#edit-institution"
                                class="btn btn--small btn--without-border float-right">Edytuj</a>
 
                             Fundacja "${institutions[i.index+1].name}" </div>
-                        <div class="subtitle">Cel i misja: ${institutions[i.index+1].description} </div></c:if>
-                    </div>
+                        <div class="subtitle">Cel i misja: ${institutions[i.index+1].description} </div></div></c:if>
+                    <c:if test="${institutions[i.index+1] == null}">
+                        <div class="col" style="visibility: hidden"></div>
+
+                    </c:if>
 
                 </li>
             </c:forEach>

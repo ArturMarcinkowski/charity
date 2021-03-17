@@ -13,6 +13,7 @@ import pl.coderslab.charity.repository.InstitutionRepository;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -79,6 +80,12 @@ public class InstitutionController {
         }
         institutionRepository.save(institution);
         return "redirect:/#section4";
+    }
+
+    @GetMapping("/list")
+    public String list(Model model){
+        model.addAttribute("institutions", institutionRepository.findAll());
+        return "institution/list";
     }
 
 }

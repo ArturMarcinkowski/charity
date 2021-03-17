@@ -85,17 +85,19 @@
                     <div class="col">
                         <div class="title">Fundacja "${institutions[i.index].name}"
 
-                            <a href="/institution/settings?id=${institutions[i.index].id}#edit-institution"
-                               class="btn btn--small btn--without-border float-right">Edytuj</a></div>
-
+                            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                                <a href="/institution/settings?id=${institutions[i.index].id}#edit-institution"
+                                   class="btn btn--small btn--without-border float-right">Edytuj</a>
+                            </sec:authorize></div>
                         <div class="subtitle">Cel i misja: ${institutions[i.index].description}</div>
                     </div>
 
                     <c:if test="${institutions[i.index+1] != null}"><div class="col">
                         <div class="title">
-
-                            <a href="/institution/settings?id=${institutions[i.index+1].id}#edit-institution"
-                               class="btn btn--small btn--without-border float-right">Edytuj</a>
+                            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                                <a href="/institution/settings?id=${institutions[i.index+1].id}#edit-institution"
+                                   class="btn btn--small btn--without-border float-right">Edytuj</a>
+                            </sec:authorize>
 
                             Fundacja "${institutions[i.index+1].name}" </div>
                         <div class="subtitle">Cel i misja: ${institutions[i.index+1].description} </div></div></c:if>

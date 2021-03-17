@@ -87,4 +87,15 @@ public class UserServiceImpl implements UserService {
         user.setEnabled(1);
         userRepository.save(user);
     }
+
+    @Override
+    public int countUsers(){
+        return (int) userRepository.count();
+    }
+
+    @Override
+    public int countAdmins(){
+        Role role = roleRepository.findByName("ROLE_ADMIN");
+        return userRepository.countAllByRolesContaining(role);
+    }
 }

@@ -19,5 +19,7 @@ public interface UserService {
     List<User> findAllByRolesContainsNot(Role role);
     void blockUser(User user);
     void unblockUser(User user);
+    int countUsers();
+    int countAdmins();
 
 }

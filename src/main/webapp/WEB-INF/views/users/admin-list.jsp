@@ -3,7 +3,7 @@
 </header>
 
 <section class="login-page" id="user-list">
-    <h2>Admini</h2>
+    <h2>Administratorzy</h2>
 
             <table>
                 <c:forEach items="${admins}" var="user">

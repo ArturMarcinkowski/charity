@@ -6,6 +6,7 @@
         <h1>
             Zacznij pomagać!<br/>
             Oddaj niechciane rzeczy w zaufane ręce
+            ${appTitle}
         </h1>
     </div>
 </div>

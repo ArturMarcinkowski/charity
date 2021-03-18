@@ -21,7 +21,7 @@ public class HomeController {
     }
 
     @RequestMapping("/")
-    public String homeAction(Model model){
+    public String homeAction(Model model) {
         model.addAttribute("institutions", institutionRepository.findAll());
         List<Donation> donations = donationRepository.findAll();
         model.addAttribute("bagsCount", donations.stream().mapToInt(Donation::getQuantity).sum());

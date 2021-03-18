@@ -27,9 +27,9 @@ public class InstitutionController {
     }
 
     @GetMapping("/settings")
-    public String formInstitution(Model model, @RequestParam int id){
+    public String formInstitution(Model model, @RequestParam int id) {
         Optional<Institution> institution = institutionRepository.findById(id);
-        if(institution.isPresent()){
+        if (institution.isPresent()) {
             model.addAttribute("institution", institution.get());
             model.addAttribute("inscription", "EDIT");
             return "institution/form";
@@ -38,7 +38,7 @@ public class InstitutionController {
     }
 
     @PostMapping("/settings")
-    public String institutionForm(@Valid Institution institution, BindingResult result){
+    public String institutionForm(@Valid Institution institution, BindingResult result) {
         if (result.hasErrors()) {
             return "institution/form";
         }
@@ -47,9 +47,9 @@ public class InstitutionController {
     }
 
     @GetMapping("/delete")
-    public String delete(Model model, @RequestParam int id){
+    public String delete(Model model, @RequestParam int id) {
         Optional<Institution> institution = institutionRepository.findById(id);
-        if(institution.isPresent()){
+        if (institution.isPresent()) {
             model.addAttribute("institution", institution.get());
             return "institution/delete";
         }
@@ -57,9 +57,9 @@ public class InstitutionController {
     }
 
     @GetMapping("/delete/confirm")
-    public String deletePost(@RequestParam int id){
+    public String deletePost(@RequestParam int id) {
         Optional<Institution> institution = institutionRepository.findById(id);
-        if(institution.isPresent()){
+        if (institution.isPresent()) {
             institutionRepository.delete(institution.get());
             return "institution/delete-confirm";
         }
@@ -67,14 +67,14 @@ public class InstitutionController {
     }
 
     @GetMapping("/add")
-    public String addInstitution(Model model){
+    public String addInstitution(Model model) {
         model.addAttribute("institution", new Institution());
         model.addAttribute("inscription", "ADD");
         return "institution/form";
     }
 
     @PostMapping("/add")
-    public String institutionAdd(@Valid Institution institution, BindingResult result){
+    public String institutionAdd(@Valid Institution institution, BindingResult result) {
         if (result.hasErrors()) {
             return "institution/form";
         }
@@ -83,7 +83,7 @@ public class InstitutionController {
     }
 
     @GetMapping("/list")
-    public String list(Model model){
+    public String list(Model model) {
         model.addAttribute("institutions", institutionRepository.findAll());
         return "institution/list";
     }

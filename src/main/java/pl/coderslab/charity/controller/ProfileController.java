@@ -18,6 +18,7 @@ import pl.coderslab.charity.service.UserService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/profile")
@@ -38,16 +39,19 @@ public class ProfileController {
     @GetMapping("/")
     public String profile(Model model, Authentication authentication) {
         if (authentication != null) {
-            User user = userService.findByUserName(authentication.getName());
-            model.addAttribute("user", user);
-            List<Donation> donations = donationRepository.findAllByUserId(user.getId());
-            model.addAttribute("bagsCount", donations.stream().mapToInt(Donation::getQuantity).sum());
-            model.addAttribute("donationsCount", donations.size());
-            model.addAttribute("donations", donations);
-            model.addAttribute("userCount", userService.countUsers());
-            model.addAttribute("adminCount", userService.countAdmins());
-            model.addAttribute("institutionCount", institutionRepository.count());
-            return "users/profile";
+            Optional<User> optionalUser = userService.findByUserName(authentication.getName());
+            if (optionalUser.isPresent()) {
+                User user = optionalUser.get();
+                model.addAttribute("user", user);
+                List<Donation> donations = donationRepository.findAllByUserId(user.getId());
+                model.addAttribute("bagsCount", donations.stream().mapToInt(Donation::getQuantity).sum());
+                model.addAttribute("donationsCount", donations.size());
+                model.addAttribute("donations", donations);
+                model.addAttribute("userCount", userService.countUsers());
+                model.addAttribute("adminCount", userService.countAdmins());
+                model.addAttribute("institutionCount", institutionRepository.count());
+                return "users/profile";
+            }
         }
         return "redirect:/";
     }

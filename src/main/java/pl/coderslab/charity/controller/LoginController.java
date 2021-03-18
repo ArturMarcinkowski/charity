@@ -3,13 +3,13 @@ package pl.coderslab.charity.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.model.User;
+import pl.coderslab.charity.service.SendEmail;
 import pl.coderslab.charity.service.UserService;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class LoginController {
@@ -20,6 +20,8 @@ public class LoginController {
     public LoginController(UserService userService) {
         this.userService = userService;
     }
+
+
 
     @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
     public String login() {
@@ -33,12 +35,33 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public String addUser(@Valid User user, BindingResult result){
+    public String addUser(@Valid User user, BindingResult result) {
         if (result.hasErrors()) {
             return "register";
         }
         userService.saveUser(user);
         return "redirect:/";
+    }
+
+
+
+    @GetMapping("/password-reminder")
+    public String passwordReminder(@RequestParam String username, Model model) {
+        Optional<User> optionalUser = userService.findByUserName(username);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            if(user.getEmail() != null){
+//                model.addAttribute("message", SendEmail.send(user.getEmail()));
+                model.addAttribute("message", SendEmail.send("takiotaku@gmail.com"));
+            }
+            else {
+                model.addAttribute("message", "podany użytkonik nie posiada adresu email");
+            }
+        }
+        else {
+            model.addAttribute("message", "użytkonik o podanym loginie nie istnieje");
+        }
+        return "/login/password-send-confirm";
     }
 
 }

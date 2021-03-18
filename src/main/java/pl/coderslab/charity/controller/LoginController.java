@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.model.User;
-import pl.coderslab.charity.service.SendEmail;
+import pl.coderslab.charity.utils.SendEmail;
 import pl.coderslab.charity.service.UserService;
 
 import javax.validation.Valid;
@@ -20,7 +20,6 @@ public class LoginController {
     public LoginController(UserService userService) {
         this.userService = userService;
     }
-
 
 
     @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
@@ -44,24 +43,51 @@ public class LoginController {
     }
 
 
-
     @GetMapping("/password-reminder")
-    public String passwordReminder(@RequestParam String username, Model model) {
-        Optional<User> optionalUser = userService.findByUserName(username);
+    public String passwordReminderGet() {
+        return "/login/password-send";
+    }
+
+    @PostMapping("/password-reminder")
+    public String passwordReminder(@RequestParam String email, Model model) {
+        Optional<User> optionalUser = userService.findByEmail(email);
         if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            if(user.getEmail() != null){
-//                model.addAttribute("message", SendEmail.send(user.getEmail()));
-                model.addAttribute("message", SendEmail.send("takiotaku@gmail.com"));
-            }
-            else {
-                model.addAttribute("message", "podany użytkonik nie posiada adresu email");
-            }
-        }
-        else {
-            model.addAttribute("message", "użytkonik o podanym loginie nie istnieje");
+            String key = userService.generateEmailChangeKey(optionalUser.get());
+            model.addAttribute("message", SendEmail.passwordChange(email, key, optionalUser.get().getUsername()));
+        } else {
+            model.addAttribute("message", " podany email nie istnieje w bazie danych");
         }
         return "/login/password-send-confirm";
     }
 
+    @GetMapping("/password-reset")
+    public String passwordReset(@RequestParam String key, @RequestParam String name, Model model) {
+        Optional<User> optionalUser = userService.findByUserName(name);
+        if(optionalUser.isPresent()){
+            User user = optionalUser.get();
+            if(userService.isKeyValid(user, key)){
+                model.addAttribute("id", user.getId());
+                return "/login/password-reset";
+            }
+            model.addAttribute("message", "link wygasł");
+        }else {
+            model.addAttribute("message", "użytkownika nie znaleziono");
+        }
+        return "/login/password-send-confirm";
+    }
+
+    @PostMapping("/password-reset")
+    public String passwordReset(@RequestParam String password, @RequestParam String password2, @RequestParam int id, Model model) {
+        Optional<User> optionalUser = userService.findById(id);
+        if(optionalUser.isPresent()) {
+            if (password.equals(password2)) {
+                userService.changePassword(password, optionalUser.get());
+                return "redirect:/login#password-form";
+            }
+            model.addAttribute("message", "hasła się nie pokrywają");
+            return "password-reset";
+        }
+        model.addAttribute("message", "użytkownika nie znaleziono");
+        return "/login/password-send-confirm";
+    }
 }

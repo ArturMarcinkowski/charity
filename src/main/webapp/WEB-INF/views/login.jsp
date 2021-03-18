@@ -10,7 +10,7 @@
         </div>
         <div class="form-group">
             <input type="password" name="password" placeholder="Hasło" />
-            <a href="#" class="btn btn--small btn--without-border reset-password">Przypomnij hasło</a>
+            <a href="password-reminder#password-form" class="btn btn--small btn--without-border reset-password">Zapomniałem hasła</a>
         </div>
 
         <div class="form-group form-group--buttons">

@@ -6,7 +6,11 @@ import pl.coderslab.charity.model.Role;
 import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.repository.RoleRepository;
 import pl.coderslab.charity.repository.UserRepository;
+import pl.coderslab.charity.utils.RandomString;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -29,6 +33,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findByUserName(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email){
+        return userRepository.findByEmail(email);
     }
 
 //    @Override
@@ -57,9 +66,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(User user) {
         User oldUser = userRepository.findById(user.getId()).get();
-        user.setPassword(oldUser.getPassword());
-//        user.setUsername(oldUser.getUsername());
-        userRepository.save(user);
+        oldUser.setName(user.getName());
+        oldUser.setUsername(user.getUsername());
+        oldUser.setSurname(user.getSurname());
+        oldUser.setEmail(user.getEmail());
+        userRepository.save(oldUser);
     }
 
     @Override
@@ -97,5 +108,34 @@ public class UserServiceImpl implements UserService {
     public int countAdmins(){
         Role role = roleRepository.findByName("ROLE_ADMIN");
         return userRepository.countAllByRolesContaining(role);
+    }
+
+    @Override
+    public String generateEmailChangeKey(User user){
+        String randomString = RandomString.getRandomString(32);
+        user.setEmailChangeKey(randomString);
+        user.setEmailChangeDate(LocalDateTime.now());
+        userRepository.save(user);
+        return randomString;
+    }
+
+    @Override
+    public boolean isKeyValid(User user, String key){
+        if(!user.getEmailChangeKey().equals(key)){
+            return false;
+        }
+        Duration duration = Duration.between(user.getEmailChangeDate(), LocalDateTime.now());
+        if(duration.toDays() > 1){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void changePassword(String password, User user){
+        user.setPassword(passwordEncoder.encode(password));
+        user.setEmailChangeKey(null);
+        user.setEmailChangeDate(null);
+        userRepository.save(user);
     }
 }

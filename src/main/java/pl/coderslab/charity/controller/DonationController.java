@@ -47,12 +47,6 @@ public class DonationController {
         return "donation/check";
     }
 
-//    @GetMapping("/check")
-//    public String formCheck(Model model, HttpSession session){
-////        model.addAttribute("donation", session.getAttribute("donation"));
-//        return "check";
-//    }
-
     @PostMapping("/check")
     public String checkForm(HttpSession session) {
         donationRepository.save((Donation) session.getAttribute("donation"));

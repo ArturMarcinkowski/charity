@@ -11,27 +11,27 @@ import java.util.List;
 @Entity
 @Data
 public class Donation {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int id;
-        private int quantity;
-        @ManyToMany
-        private List<Category> categories;
-        @OneToOne
-        @JoinColumn(name = "institution_id")
-        private Institution institution;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private int quantity;
+    @ManyToMany
+    private List<Category> categories;
+    @OneToOne
+    @JoinColumn(name = "institution_id")
+    private Institution institution;
 
-        private String street;
-        private String city;
-        private String zipCode;
+    private String street;
+    private String city;
+    private String zipCode;
 
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
-        private LocalDate pickUpDate;
-        private LocalTime pickUpTime;
-        private String pickUpComment;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate pickUpDate;
+    private LocalTime pickUpTime;
+    private String pickUpComment;
 
-        @ManyToOne
-        @JoinColumn(name = "user_id")
-        private User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

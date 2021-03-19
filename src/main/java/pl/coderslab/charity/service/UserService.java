@@ -10,10 +10,11 @@ public interface UserService {
 
     Optional<User> findByUserName(String name);
 
-    //    User findByEmail(String email);
     Optional<User> findById(int id);
 
     Optional<User> findByEmail(String email);
+
+    void registerUser(User user);
 
     void saveUser(User user);
 
@@ -35,7 +36,9 @@ public interface UserService {
 
     String generateEmailChangeKey(User user);
 
-    boolean isKeyValid(User user, String key);
+    boolean tryActivateAccount(int id, String key);
+
+    boolean isEmailKeyValid(User user, String key);
 
     void changePassword(String password, User user);
 

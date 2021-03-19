@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findByEmail(String email){
+    public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
@@ -44,6 +44,15 @@ public class UserServiceImpl implements UserService {
 //    public User findByEmail(String email) {
 //        return userRepository.findByEmail(email);
 //    }
+
+    @Override
+    public void registerUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEnabled(0);
+        Role userRole = roleRepository.findByName("ROLE_USER");
+        user.setRoles(new HashSet<>(Arrays.asList(userRole)));
+        userRepository.save(user);
+    }
 
     @Override
     public void saveUser(User user) {
@@ -74,44 +83,46 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findById(int id){
+    public Optional<User> findById(int id) {
         return userRepository.findById(id);
     }
 
     @Override
-    public List<User> findAllByRolesContains(Role role){
+    public List<User> findAllByRolesContains(Role role) {
         return userRepository.findAllByRolesContains(role);
     }
+
     @Override
-    public List<User> findAllByRolesContainsNot(Role role){
+    public List<User> findAllByRolesContainsNot(Role role) {
         return userRepository.findAllByRolesNotContains(role);
     }
 
 
     @Override
-    public void blockUser(User user){
+    public void blockUser(User user) {
         user.setEnabled(0);
         userRepository.save(user);
     }
+
     @Override
-    public void unblockUser(User user){
+    public void unblockUser(User user) {
         user.setEnabled(1);
         userRepository.save(user);
     }
 
     @Override
-    public int countUsers(){
+    public int countUsers() {
         return (int) userRepository.count();
     }
 
     @Override
-    public int countAdmins(){
+    public int countAdmins() {
         Role role = roleRepository.findByName("ROLE_ADMIN");
         return userRepository.countAllByRolesContaining(role);
     }
 
     @Override
-    public String generateEmailChangeKey(User user){
+    public String generateEmailChangeKey(User user) {
         String randomString = RandomString.getRandomString(32);
         user.setEmailChangeKey(randomString);
         user.setEmailChangeDate(LocalDateTime.now());
@@ -120,19 +131,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isKeyValid(User user, String key){
-        if(!user.getEmailChangeKey().equals(key)){
+    public boolean tryActivateAccount(int id, String key) {
+        User user = userRepository.findById(id).get();
+        if (user.getEmailChangeKey().equals(key)) {
+            user.setEnabled(1);
+            user.setEmailChangeKey(null);
+            user.setEmailChangeDate(null);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isEmailKeyValid(User user, String key) {
+        if (!user.getEmailChangeKey().equals(key)) {
             return false;
         }
         Duration duration = Duration.between(user.getEmailChangeDate(), LocalDateTime.now());
-        if(duration.toDays() > 1){
+        if (duration.toDays() > 1) {
             return false;
         }
         return true;
     }
 
     @Override
-    public void changePassword(String password, User user){
+    public void changePassword(String password, User user) {
         user.setPassword(passwordEncoder.encode(password));
         user.setEmailChangeKey(null);
         user.setEmailChangeDate(null);

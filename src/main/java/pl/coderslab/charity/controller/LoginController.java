@@ -33,13 +33,40 @@ public class LoginController {
         return "register";
     }
 
+//    @PostMapping("/register")
+//    public String addUser(@Valid User user, BindingResult result) {
+//        if (result.hasErrors()) {
+//            return "register";
+//        }
+//        userService.saveUser(user);
+//        return "redirect:/";
+//    }
+
     @PostMapping("/register")
-    public String addUser(@Valid User user, BindingResult result) {
+    public String addUser(@Valid User user, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "register";
         }
-        userService.saveUser(user);
-        return "redirect:/";
+        userService.registerUser(user);
+        String key = userService.generateEmailChangeKey(user);
+        model.addAttribute("message", SendEmail.registerConfirm(user.getEmail(), key, user.getUsername()));
+        return "/login/password-send-confirm";
+    }
+
+    @GetMapping("/account-activate")
+    public String activate(@RequestParam String key, @RequestParam String name, Model model) {
+        Optional<User> optionalUser = userService.findByUserName(name);
+        if(optionalUser.isPresent()){
+            User user = optionalUser.get();
+            if(userService.tryActivateAccount(user.getId(), key)){
+                model.addAttribute("message", "Konto zostało aktywowane");
+                return "/login/password-send-confirm";
+            }
+            model.addAttribute("message", "link wygasł");
+        }else {
+            model.addAttribute("message", "użytkownika nie znaleziono");
+        }
+        return "/login/password-send-confirm";
     }
 
 
@@ -65,7 +92,7 @@ public class LoginController {
         Optional<User> optionalUser = userService.findByUserName(name);
         if(optionalUser.isPresent()){
             User user = optionalUser.get();
-            if(userService.isKeyValid(user, key)){
+            if(userService.isEmailKeyValid(user, key)){
                 model.addAttribute("id", user.getId());
                 return "/login/password-reset";
             }

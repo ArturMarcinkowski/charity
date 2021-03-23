@@ -21,11 +21,11 @@
     <section class="login-page" id="admin-panel">
         <h2>Panel Administratora</h2>
         <h3>Strona posiada ${institutionCount} fundacji</h3>
-        <a href="/institution/list" class="btn btn--small">Szczegóły</a>
+        <a href="/institution/list#institution-list" class="btn btn--small">Szczegóły</a>
         <h3>W bazie danych jest ${userCount} użytkowników</h3>
-        <a href="/user/list" class="btn btn--small">Szczegóły</a>
+        <a href="/user/list#user-list" class="btn btn--small">Szczegóły</a>
         <h3>Z czego ${adminCount} administratorów</h3>
-        <a href="/admin/list" class="btn btn--small">Szczegóły</a>
+        <a href="/admin/list#user-list" class="btn btn--small">Szczegóły</a>
     </section>
 </sec:authorize>
 
@@ -38,22 +38,25 @@
         <li>Nazwisko: ${user.surname}</li>
     </ul>
     <a href="/profile/edit#edit-form" class="btn btn--small">Edytuj dane</a>
+    <a href="/profile/password-change#password-form" class="btn btn--small">Zmień hasło</a>
 </section>
 
 <section class="help" id="donation-list">
     <h2>Lista darów</h2>
-    <table>
+    <table id="list-table">
         <tr>
-            <th>ilość worków</th>
-            <th>kategorie</th>
-            <th>fundacja</th>
+            <th>Fundacja</th>
+            <th>Kategorie</th>
+            <th>Adres</th>
+            <th>Ilość Worków</th>
             <th>Szczegóły</th>
         </tr>
         <c:forEach items="${donations}" var="donation">
         <tr>
-            <td>${donation.quantity}</td>
-            <td><c:forEach items="${donation.categories}" var="category"> ${category.name},  </c:forEach></td>
             <td>${donation.institution.name}</td>
+            <td><c:forEach items="${donation.categories}" var="category"> ${category.name},  </c:forEach></td>
+            <td>${donation.city} ${donation.street} ${donation.zipCode}</td>
+            <td>${donation.quantity}</td>
             <td><a href="/donation/details?id=${donation.id}" class="btn btn--small">Szczegóły</a></td>
         </tr>
         </c:forEach>

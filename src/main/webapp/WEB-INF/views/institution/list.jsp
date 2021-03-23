@@ -4,7 +4,7 @@
 
 </header>
 
-<section class="help" id="section4">
+<section class="help" id="institution-list">
 
     <!-- SLIDE 1 -->
     <div class="help--slides active" data-id="1">

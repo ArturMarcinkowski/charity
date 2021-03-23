@@ -4,10 +4,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.model.Donation;
 import pl.coderslab.charity.model.Role;
 import pl.coderslab.charity.model.User;
@@ -73,6 +70,34 @@ public class ProfileController {
         }
         userService.updateUser(user);
         return "redirect:/";
+    }
+
+    @GetMapping("/password-change")
+    public String password(Authentication authentication) {
+        if (authentication != null) {
+            return "users/password-change";
+        } else {
+            return "redirect:/login";
+        }
+    }
+
+    @PostMapping("/password-change")
+    public String passwordPost(@RequestParam String oldPassword, @RequestParam String newPassword1, @RequestParam String newPassword2, Authentication authentication, Model model) {
+        if (authentication != null) {
+            User user = userService.findByUserName(authentication.getName()).get();
+
+            if(!userService.testPassword(oldPassword, user)){
+                model.addAttribute("message", "hasło jest nieprawdłowe");
+                return "users/password-change";
+            }
+            if(!newPassword1.equals(newPassword2)){
+                model.addAttribute("message", "hasła nie są identyczne");
+                return "users/password-change";
+            }
+            userService.changePassword(newPassword1, user);
+            return "redirect:/profile/";
+        }
+        return "redirect:/login";
     }
 
 }

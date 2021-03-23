@@ -36,10 +36,14 @@ public interface UserService {
 
     String generateEmailChangeKey(User user);
 
-    boolean tryActivateAccount(int id, String key);
+    boolean tryActivateAccount(String key);
 
-    boolean isEmailKeyValid(User user, String key);
+    User isEmailKeyValid(String key);
 
     void changePassword(String password, User user);
+
+    boolean testPassword(String password, User user);
+
+    void deleteUser(int id);
 
 }

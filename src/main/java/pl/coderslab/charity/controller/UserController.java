@@ -76,7 +76,7 @@ public class UserController {
     public String deletePost(@RequestParam int id){
         Optional<User> user = userService.findById(id);
         if(user.isPresent()){
-            userRepository.delete(user.get());
+            userService.deleteUser(id);
             return "users/delete-confirm";
         }
         return "redirect:/";

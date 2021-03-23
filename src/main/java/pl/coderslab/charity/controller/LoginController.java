@@ -49,23 +49,18 @@ public class LoginController {
         }
         userService.registerUser(user);
         String key = userService.generateEmailChangeKey(user);
-        model.addAttribute("message", SendEmail.registerConfirm(user.getEmail(), key, user.getUsername()));
+        model.addAttribute("message", new SendEmail().registerConfirm(user.getEmail(), key));
         return "/login/password-send-confirm";
     }
 
     @GetMapping("/account-activate")
-    public String activate(@RequestParam String key, @RequestParam String name, Model model) {
-        Optional<User> optionalUser = userService.findByUserName(name);
-        if(optionalUser.isPresent()){
-            User user = optionalUser.get();
-            if(userService.tryActivateAccount(user.getId(), key)){
-                model.addAttribute("message", "Konto zostało aktywowane");
-                return "/login/password-send-confirm";
-            }
-            model.addAttribute("message", "link wygasł");
-        }else {
-            model.addAttribute("message", "użytkownika nie znaleziono");
+    public String activate(@RequestParam String key, Model model) {
+        if (userService.tryActivateAccount(key)) {
+            model.addAttribute("message", "Konto zostało aktywowane");
+            return "/login/password-send-confirm";
         }
+        model.addAttribute("message", "link wygasł");
+
         return "/login/password-send-confirm";
     }
 
@@ -80,7 +75,7 @@ public class LoginController {
         Optional<User> optionalUser = userService.findByEmail(email);
         if (optionalUser.isPresent()) {
             String key = userService.generateEmailChangeKey(optionalUser.get());
-            model.addAttribute("message", SendEmail.passwordChange(email, key, optionalUser.get().getUsername()));
+            model.addAttribute("message", new SendEmail().passwordChange(email, key));
         } else {
             model.addAttribute("message", " podany email nie istnieje w bazie danych");
         }
@@ -88,25 +83,20 @@ public class LoginController {
     }
 
     @GetMapping("/password-reset")
-    public String passwordReset(@RequestParam String key, @RequestParam String name, Model model) {
-        Optional<User> optionalUser = userService.findByUserName(name);
-        if(optionalUser.isPresent()){
-            User user = optionalUser.get();
-            if(userService.isEmailKeyValid(user, key)){
-                model.addAttribute("id", user.getId());
-                return "/login/password-reset";
-            }
-            model.addAttribute("message", "link wygasł");
-        }else {
-            model.addAttribute("message", "użytkownika nie znaleziono");
+    public String passwordReset(@RequestParam String key, Model model) {
+        User user = userService.isEmailKeyValid(key);
+        if (user != null) {
+            model.addAttribute("id", user.getId());
+            return "/login/password-reset";
         }
+        model.addAttribute("message", "link wygasł");
         return "/login/password-send-confirm";
     }
 
     @PostMapping("/password-reset")
     public String passwordReset(@RequestParam String password, @RequestParam String password2, @RequestParam int id, Model model) {
         Optional<User> optionalUser = userService.findById(id);
-        if(optionalUser.isPresent()) {
+        if (optionalUser.isPresent()) {
             if (password.equals(password2)) {
                 userService.changePassword(password, optionalUser.get());
                 return "redirect:/login#password-form";

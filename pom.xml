@@ -77,6 +77,11 @@
             <artifactId>mail</artifactId>
             <version>1.5.0-b01</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
 
     </dependencies>
 
@@ -90,5 +95,39 @@
     </build>
 
 
+
+
+
+    <plugin>
+        <groupId>com.google.code.maven-replacer-plugin</groupId>
+        <artifactId>replacer</artifactId>
+        <version>1.5.3</version>
+        <executions>
+            <execution>
+                <id>package-replace</id>
+                <phase>package</phase>
+                <goals>
+                    <goal>replace</goal>
+                </goals>
+            </execution>
+            <execution>
+                <id>deploy-replace</id>
+                <phase>deploy</phase>
+                <goals>
+                    <goal>replace</goal>
+                </goals>
+            </execution>
+        </executions>
+        <configuration>
+            <file>${application.properties}</file>
+            <outputFile>${my.application.properties}</outputFile>
+<!--            <replacements>-->
+<!--                <replacement>-->
+<!--                    <token>@REALM_NAME@</token>-->
+<!--                    <value>${web.realm}</value>-->
+<!--                </replacement>-->
+<!--            </replacements>-->
+        </configuration>
+    </plugin>
 
 </project>

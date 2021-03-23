@@ -1,4 +1,4 @@
-package pl.coderslab.charity.service;
+package pl.coderslab.charity.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -6,23 +6,51 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
-//
-//@Configuration
+
+//@Component
+//@ConfigurationProperties(prefix = "myapp")
 @PropertySource("classpath:application.properties")
 public class SendEmail {
 
     @Value("${email.username}")
-    private static String username;
+    private String username;
     @Value("${email.password}")
-    private static String password;
+    private String password;
+
+    public String passwordChange(String email, String key) {
+        String message = send(email,
+                "Zmiana hasła",
+                "Aby zmienić hasło wejdź na poniższy link:\n"
+                        + "localhost:8080/password-reset?key=" + key + "#password-form");
 
 
-    public static String send(String email) {
+        if (message == null) {
+            return "Wysłano email zmiany hasła.\nSprawdź swoją skrzynkę pocztową";
+        }
+        return message;
+    }
+
+    public String registerConfirm(String email, String key) {
+        String message = send(email,
+                "Aktywacja konta charity.com",
+                "Witaj. \n" +
+                        "Aby aktywować swoje konto wejdź na stronę: " +
+                        "localhost:8080/account-activate?key=" + key + "#password-form");
+
+        if (message == null) {
+            return "Wysłano link aktywacyjny konta.\nSprawdź swoją skrzynkę pocztową";
+        }
+        return message;
+    }
+
+
+    public String send(String email, String title, String text) {
 
         Properties prop = new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");
@@ -45,11 +73,10 @@ public class SendEmail {
                     Message.RecipientType.TO,
                     InternetAddress.parse(email)
             );
-            message.setSubject("Testing Gmail SSL");
-            message.setText("Dear Mail Crawler,"
-                    + "\n\n Please do not spam my email!");
+            message.setSubject(title);
+            message.setText(text);
             Transport.send(message);
-            return "done";
+            return null;
 
         } catch (MessagingException e) {
             e.printStackTrace();

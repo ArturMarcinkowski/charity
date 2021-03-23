@@ -2,6 +2,7 @@ package pl.coderslab.charity.model;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
+import pl.coderslab.charity.repository.RoleRepository;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -29,6 +30,15 @@ public class User {
 
     private String emailChangeKey;
     private LocalDateTime emailChangeDate;
+
+    public boolean isAdmin(){
+        for(Role role:roles){
+            if(role.getName().equals("ROLE_ADMIN")){
+                return true;
+            }
+        }
+        return false;
+    }
 
 
 }

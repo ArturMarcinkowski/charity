@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import pl.coderslab.charity.model.Donation;
 import pl.coderslab.charity.model.Institution;
 import pl.coderslab.charity.model.Role;
 import pl.coderslab.charity.model.User;
@@ -34,11 +35,20 @@ public class AdminController {
 
 
     @GetMapping("/list")
-    public String settings(Model model) {
-        Role role = roleRepository.findByName("ROLE_ADMIN");
-        List<User> admins = userService.findAllByRolesContains(role);
-        model.addAttribute("admins", admins);
-        return "users/admin-list";
+    public String settings(Model model, Authentication authentication) {
+
+        if (authentication != null) {
+            Optional<User> optionalUser = userService.findByUserName(authentication.getName());
+            if (optionalUser.isPresent()) {
+                User activeUser = optionalUser.get();
+                Role role = roleRepository.findByName("ROLE_ADMIN");
+                List<User> admins = userService.findAllByRolesContains(role);
+                model.addAttribute("admins", admins);
+                model.addAttribute("activeUser", activeUser);
+                return "users/admin-list";
+            }
+        }
+        return "redirect:/";
     }
 
     @GetMapping("/add")

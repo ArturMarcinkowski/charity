@@ -40,10 +40,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(email);
     }
 
-//    @Override
-//    public User findByEmail(String email) {
-//        return userRepository.findByEmail(email);
-//    }
 
     @Override
     public void registerUser(User user) {
@@ -131,9 +127,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean tryActivateAccount(int id, String key) {
-        User user = userRepository.findById(id).get();
-        if (user.getEmailChangeKey().equals(key)) {
+    public boolean tryActivateAccount(String key) {
+        Optional<User> optionalUser = userRepository.findByEmailChangeKey(key);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
             user.setEnabled(1);
             user.setEmailChangeKey(null);
             user.setEmailChangeDate(null);
@@ -144,15 +141,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isEmailKeyValid(User user, String key) {
-        if (!user.getEmailChangeKey().equals(key)) {
-            return false;
+    public User isEmailKeyValid(String key) {
+        Optional<User> optionalUser = userRepository.findByEmailChangeKey(key);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            Duration duration = Duration.between(user.getEmailChangeDate(), LocalDateTime.now());
+            if (duration.toDays() > 1) {
+                return null;
+            }
+            return user;
         }
-        Duration duration = Duration.between(user.getEmailChangeDate(), LocalDateTime.now());
-        if (duration.toDays() > 1) {
-            return false;
-        }
-        return true;
+        return null;
     }
 
     @Override
@@ -161,5 +160,25 @@ public class UserServiceImpl implements UserService {
         user.setEmailChangeKey(null);
         user.setEmailChangeDate(null);
         userRepository.save(user);
+    }
+
+    @Override
+    public boolean testPassword(String password, User user) {
+        return passwordEncoder.matches(password, user.getPassword());
+    }
+
+    @Override
+    public void deleteUser(int id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            Role role = roleRepository.findByName("ROLE_ADMIN");
+            if (user.isAdmin()) {
+                if (userRepository.countAllByRolesContaining(role) == 1) {
+                    return;
+                }
+            }
+            userRepository.delete(user);
+        }
     }
 }

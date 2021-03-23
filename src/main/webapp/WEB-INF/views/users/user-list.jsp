@@ -5,28 +5,35 @@
 <section class="login-page" id="user-list">
     <h2>Użytkownicy</h2>
 
-            <table>
-                <c:forEach items="${users}" var="user">
+            <table id="list-table">
+                <tr>
+                    <th>Login</th>
+                    <th>Email</th>
+                    <th>Imię</th>
+                    <th>Nazwisko</th>
+                    <th>Ustawienia</th>
+                </tr>
+                <c:forEach items="${users}" var="user" varStatus="status">
                 <div class="col">
                     <tr>
-                        <th>
-                            <div class="title">${user.username}
-                                <div/>
-                        </th>
-                        <th>${user.name}</th>
-                        <th><a href="/user/edit?id=${user.id}#edit-user"
-                               class="btn btn--small btn--without-border float-right">Edytuj</a></th>
-                        <th><a href="/user/delete?id=${user.id}#delete-user"
-                               class="btn btn--small btn--without-border float-right">Usuń</a></th>
+                        <td>${user.username}</td>
+                        <td>${user.email}</td>
+                        <td>${user.name}</td>
+                        <td>${user.surname}</td>
+                        <td><a href="/user/edit?id=${user.id}#edit-user"
+                               class="btn btn--small float-right">Edytuj</a>
+
+                        <a href="/user/delete?id=${user.id}#delete-user"
+                               class="btn btn--small float-right">Usuń</a>
                         <c:if test="${user.enabled == 1}">
-                            <th><a href="/user/block?id=${user.id}"
-                                   class="btn btn--small btn--without-border float-right">Zablokuj</a></th>
+                            <a href="/user/block?id=${user.id}"
+                                   class="btn btn--small float-right">Zablokuj</a>
                         </c:if>
                         <c:if test="${user.enabled == 0}">
-                            <th><a href="/user/unblock?id=${user.id}"
-                                   class="btn btn--small btn--without-border float-right">Odblokuj</a></th>
+                            <a href="/user/unblock?id=${user.id}"
+                                   class="btn btn--small float-right">Odblokuj</a>
                         </c:if>
-
+                        </td>
 
                     </tr>
                     <div/>

@@ -14,13 +14,11 @@ import java.util.Optional;
 @Controller
 public class LoginController {
 
-
-    UserService userService;
+    private final UserService userService;
 
     public LoginController(UserService userService) {
         this.userService = userService;
     }
-
 
     @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
     public String login() {
@@ -32,15 +30,6 @@ public class LoginController {
         model.addAttribute("user", new User());
         return "register";
     }
-
-//    @PostMapping("/register")
-//    public String addUser(@Valid User user, BindingResult result) {
-//        if (result.hasErrors()) {
-//            return "register";
-//        }
-//        userService.saveUser(user);
-//        return "redirect:/";
-//    }
 
     @PostMapping("/register")
     public String addUser(@Valid User user, BindingResult result, Model model) {
@@ -63,7 +52,6 @@ public class LoginController {
 
         return "/login/password-send-confirm";
     }
-
 
     @GetMapping("/password-reminder")
     public String passwordReminderGet() {

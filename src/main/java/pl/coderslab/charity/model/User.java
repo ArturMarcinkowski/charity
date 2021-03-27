@@ -1,11 +1,7 @@
 package pl.coderslab.charity.model;
 
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
-import pl.coderslab.charity.repository.RoleRepository;
-
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 

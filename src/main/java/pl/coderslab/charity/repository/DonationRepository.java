@@ -10,5 +10,4 @@ import java.util.List;
 public interface DonationRepository extends JpaRepository<Donation, Integer> {
     List<Donation> findAllByUserId(int id);
 
-
 }

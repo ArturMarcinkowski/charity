@@ -1,6 +1,5 @@
 package pl.coderslab.charity.controller;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,9 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.coderslab.charity.model.Role;
 import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.repository.RoleRepository;
-import pl.coderslab.charity.repository.UserRepository;
 import pl.coderslab.charity.service.UserService;
-
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -22,15 +19,12 @@ import java.util.Optional;
 @RequestMapping("/user")
 public class UserController {
 
+    private final UserService userService;
+    private final RoleRepository roleRepository;
 
-    UserService userService;
-    RoleRepository roleRepository;
-    UserRepository userRepository;
-
-    public UserController(UserService userService, RoleRepository roleRepository, UserRepository userRepository) {
+    public UserController(UserService userService, RoleRepository roleRepository) {
         this.userService = userService;
         this.roleRepository = roleRepository;
-        this.userRepository = userRepository;
     }
 
     @GetMapping("/list")
@@ -42,7 +36,7 @@ public class UserController {
     }
 
     @PostMapping("/edit")
-    public String settingsPost(@Valid User user, BindingResult result){
+    public String settingsPost(@Valid User user, BindingResult result) {
         if (result.hasErrors()) {
             return "users/edit";
         }
@@ -53,19 +47,18 @@ public class UserController {
     @GetMapping("/edit")
     public String settings(Model model, @RequestParam int id) {
         Optional<User> user = userService.findById(id);
-        if(user.isPresent()) {
+        if (user.isPresent()) {
             model.addAttribute("user", user.get());
             return "users/edit";
-        }
-        else{
+        } else {
             return "redirect:/";
         }
     }
 
     @GetMapping("/delete")
-    public String delete(Model model, @RequestParam int id){
+    public String delete(Model model, @RequestParam int id) {
         Optional<User> user = userService.findById(id);
-        if(user.isPresent()){
+        if (user.isPresent()) {
             model.addAttribute("user", user.get());
             return "users/delete";
         }
@@ -73,9 +66,9 @@ public class UserController {
     }
 
     @GetMapping("/delete/confirm")
-    public String deletePost(@RequestParam int id){
+    public String deletePost(@RequestParam int id) {
         Optional<User> user = userService.findById(id);
-        if(user.isPresent()){
+        if (user.isPresent()) {
             userService.deleteUser(id);
             return "users/delete-confirm";
         }
@@ -101,18 +94,14 @@ public class UserController {
     @GetMapping("/block")
     public String block(@RequestParam int id) {
         Optional<User> user = userService.findById(id);
-        if(user.isPresent()){
-            userService.blockUser(user.get());
-        }
+        user.ifPresent(userService::blockUser);
         return "redirect:/user/list#user-list";
     }
 
     @GetMapping("/unblock")
     public String unblock(@RequestParam int id) {
         Optional<User> user = userService.findById(id);
-        if(user.isPresent()){
-            userService.unblockUser(user.get());
-        }
+        user.ifPresent(userService::unblockUser);
         return "redirect:/user/list#user-list";
     }
 

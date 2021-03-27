@@ -1,28 +1,24 @@
 package pl.coderslab.charity.controller;
 
-import org.hibernate.Session;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import pl.coderslab.charity.model.Category;
 import pl.coderslab.charity.model.Donation;
 import pl.coderslab.charity.repository.CategoryRepository;
 import pl.coderslab.charity.repository.DonationRepository;
 import pl.coderslab.charity.repository.InstitutionRepository;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 public class DonationController {
 
-    public CategoryRepository categoryRepository;
-    public InstitutionRepository institutionRepository;
-    public DonationRepository donationRepository;
+    private final CategoryRepository categoryRepository;
+    private final InstitutionRepository institutionRepository;
+    private final DonationRepository donationRepository;
 
     public DonationController(CategoryRepository categoryRepository, InstitutionRepository institutionRepository, DonationRepository donationRepository) {
         this.categoryRepository = categoryRepository;

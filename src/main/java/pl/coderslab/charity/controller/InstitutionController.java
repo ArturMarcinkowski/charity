@@ -7,20 +7,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import pl.coderslab.charity.model.Donation;
 import pl.coderslab.charity.model.Institution;
 import pl.coderslab.charity.repository.InstitutionRepository;
-
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/institution")
 public class InstitutionController {
 
-    private InstitutionRepository institutionRepository;
+    private final InstitutionRepository institutionRepository;
 
     public InstitutionController(InstitutionRepository institutionRepository) {
         this.institutionRepository = institutionRepository;

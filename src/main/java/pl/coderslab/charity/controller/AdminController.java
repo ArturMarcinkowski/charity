@@ -7,15 +7,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import pl.coderslab.charity.model.Donation;
-import pl.coderslab.charity.model.Institution;
 import pl.coderslab.charity.model.Role;
 import pl.coderslab.charity.model.User;
 import pl.coderslab.charity.repository.RoleRepository;
-import pl.coderslab.charity.repository.UserRepository;
 import pl.coderslab.charity.service.UserService;
-
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -24,15 +19,13 @@ import java.util.Optional;
 @RequestMapping("/admin")
 public class AdminController {
 
-
-    UserService userService;
-    RoleRepository roleRepository;
+    private final UserService userService;
+    private final RoleRepository roleRepository;
 
     public AdminController(UserService userService, RoleRepository roleRepository) {
         this.userService = userService;
         this.roleRepository = roleRepository;
     }
-
 
     @GetMapping("/list")
     public String settings(Model model, Authentication authentication) {

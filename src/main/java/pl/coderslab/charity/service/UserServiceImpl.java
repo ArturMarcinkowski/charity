@@ -10,7 +10,6 @@ import pl.coderslab.charity.utils.RandomString;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;

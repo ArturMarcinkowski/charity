@@ -49,7 +49,7 @@
             <th>Kategorie</th>
             <th>Adres</th>
             <th>Ilość Worków</th>
-            <th>Szczegóły</th>
+<%--            <th>Szczegóły</th>--%>
         </tr>
         <c:forEach items="${donations}" var="donation">
         <tr>
@@ -57,7 +57,7 @@
             <td><c:forEach items="${donation.categories}" var="category"> ${category.name},  </c:forEach></td>
             <td>${donation.city} ${donation.street} ${donation.zipCode}</td>
             <td>${donation.quantity}</td>
-            <td><a href="/donation/details?id=${donation.id}" class="btn btn--small">Szczegóły</a></td>
+<%--            <td><a href="/donation/details?id=${donation.id}" class="btn btn--small">Szczegóły</a></td>--%>
         </tr>
         </c:forEach>
     </table>

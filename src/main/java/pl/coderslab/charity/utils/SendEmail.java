@@ -1,27 +1,19 @@
 package pl.coderslab.charity.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
-
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
-//@Component
-//@ConfigurationProperties(prefix = "myapp")
 @PropertySource("classpath:application.properties")
 public class SendEmail {
 
     @Value("${email.username}")
-    private String username;
+    private final String username = "Artur.Marcinkowski.Serwer@gmail.com";
     @Value("${email.password}")
-    private String password;
+    private final String password = "onion69+";
 
     public String passwordChange(String email, String key) {
         String message = send(email,

@@ -35,6 +35,21 @@ public class UserController {
         return "users/user-list";
     }
 
+    @GetMapping("/add")
+    public String add(Model model) {
+        model.addAttribute("user", new User());
+        return "users/form";
+    }
+
+    @PostMapping("/add")
+    public String addForm(@Valid User user, BindingResult result) {
+        if (result.hasErrors()) {
+            return "users/form";
+        }
+        userService.saveUser(user);
+        return "redirect:/";
+    }
+
     @PostMapping("/edit")
     public String settingsPost(@Valid User user, BindingResult result) {
         if (result.hasErrors()) {
@@ -72,22 +87,6 @@ public class UserController {
             userService.deleteUser(id);
             return "users/delete-confirm";
         }
-        return "redirect:/";
-    }
-
-
-    @GetMapping("/add")
-    public String add(Model model) {
-        model.addAttribute("user", new User());
-        return "users/form";
-    }
-
-    @PostMapping("/add")
-    public String addForm(@Valid User user, BindingResult result) {
-        if (result.hasErrors()) {
-            return "users/form";
-        }
-        userService.saveUser(user);
         return "redirect:/";
     }
 

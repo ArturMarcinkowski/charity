@@ -69,7 +69,7 @@ CREATE TABLE `donation` (
 
 LOCK TABLES `donation` WRITE;
 /*!40000 ALTER TABLE `donation` DISABLE KEYS */;
-INSERT INTO `donation` VALUES (1,'Poznań','weźcie','2021-03-18','13:13:00',4,'Cwiartki','55666',2,1),(2,'Poznań','hh','2021-03-18','15:18:00',5,'Szara','61-806',3,1),(3,'Warszawa','tak','2021-03-18','16:56:00',6,'ggg','66666',4,2),(4,'Warszawa','ds','2021-03-18','17:11:00',1,'ggg','66666',4,2);
+INSERT INTO `donation` VALUES (1,'Poznań','weźcie','2021-03-18','13:13:00',4,'Cwiartki','55666',2,1),(2,'Poznań','hh','2021-03-18','15:18:00',5,'Szara','61-806',3,1),(3,'Warszawa','tak','2021-03-18','16:56:00',6,'ggg','66666',4,32),(4,'Warszawa','ds','2021-03-18','17:11:00',1,'ggg','66666',4,32);
 /*!40000 ALTER TABLE `donation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,29 +121,6 @@ LOCK TABLES `institution` WRITE;
 /*!40000 ALTER TABLE `institution` DISABLE KEYS */;
 INSERT INTO `institution` VALUES (7,'Fundacja dla głodnych','Głodni'),(2,'Dla biednych ludzi','Bieda'),(3,'Dla głodnych i spragnionych','Żywność'),(4,'Dla bardziej biednych','Bieda 2'),(5,'Dla bezdomnych','Bezdomni');
 /*!40000 ALTER TABLE `institution` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `phone`
---
-
-DROP TABLE IF EXISTS `phone`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `phone` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `phone`
---
-
-LOCK TABLES `phone` WRITE;
-/*!40000 ALTER TABLE `phone` DISABLE KEYS */;
-/*!40000 ALTER TABLE `phone` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -223,7 +200,7 @@ CREATE TABLE `user_role` (
 
 LOCK TABLES `user_role` WRITE;
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
-INSERT INTO `user_role` VALUES (1,1),(32,1),(32,2);
+INSERT INTO `user_role` VALUES (1,1),(32,2);
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

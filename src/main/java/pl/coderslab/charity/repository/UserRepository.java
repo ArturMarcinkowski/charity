@@ -17,6 +17,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     int countAllByRolesContaining(Role role);
 
+
     Optional<User> findByEmail(String email);
 
     Optional<User> findByEmailChangeKey(String emailChangeKey);

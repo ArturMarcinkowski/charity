@@ -1,6 +1,6 @@
 
 ## Charity
-This project was made using Spring Framework 2.1.4.  
+This project was made using Spring Framework 2.1.4 (incl. Spring Boot, Spring Security, Spring Email).
 
 ## StartUp
 You need charity-data schema in your databse to run this project.  
